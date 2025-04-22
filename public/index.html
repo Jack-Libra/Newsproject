@@ -70,11 +70,15 @@
       let currentPage = 1;
 
       function loadNews(page) {
-        fetch(`http://localhost:3000/news?page=${page}&pageSize=${pageSize}`)
+        // 修改 API URL 為線上 API
+        fetch(`https://news-api-c8ow.onrender.com/news?page=${page}&pageSize=${pageSize}`)
           .then(res => res.json())
           .then(data => {
             renderNews(data.news);
             renderPagination(data.totalPages, page);
+          })
+          .catch(err => {
+            console.error("Error loading news:", err);
           });
       }
 
