@@ -6,8 +6,8 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000; // 服務器端口號
 
-const mongoUri = 'mongodb://localhost:27017'; // 本地 MongoDB URI
-//const mongoUri = process.env.MONGO_URI; // 線上 MongoDB URI
+//const mongoUri = 'mongodb://localhost:27017'; // 本地 MongoDB URI
+const mongoUri = process.env.MONGO_URI; // 線上 MongoDB URI
 
 
 
