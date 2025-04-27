@@ -71,9 +71,9 @@
 
       function loadNews(page) {
         // 遠端API URL
-        //fetch(`https://news-api-yl96.onrender.com/news?page=${page}&pageSize=${pageSize}`)
+        fetch(`https://news-api-yl96.onrender.com/news?page=${page}&pageSize=${pageSize}`)
         // 本地API URL
-        fetch(`http://localhost:3000/news?page=${page}&pageSize=${pageSize}`)
+        //fetch(`http://localhost:3000/news?page=${page}&pageSize=${pageSize}`)
           .then(res => res.json())
           .then(data => {
             renderNews(data.news);
