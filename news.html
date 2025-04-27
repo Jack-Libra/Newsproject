@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <title>新聞詳情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .news-image-placeholder {
+        width: 100%;
+        height: 300px;
+        background-color: #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #666;
+        margin-bottom: 20px;
+      }
+      .news-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      .news-date {
+        font-size: 0.9rem;
+        color: #888;
+        margin-bottom: 20px;
+      }
+      .news-summary {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <!-- 載入 header -->
+    <div id="header-placeholder"></div>
+    <script>
+      fetch("header.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("header-placeholder").innerHTML = data;
+        });
+    </script>
+
+    <!-- 主要內容區 -->
+    <main class="container mt-5">
+      <!-- 圖片區 -->
+      <div class="news-image-placeholder">
+        圖片佔位
+      </div>
+
+      <!-- 標題 -->
+      <h1 id="news-title" class="news-title">載入中...</h1>
+
+      <!-- 日期 -->
+      <p id="news-date" class="news-date"></p>
+
+      <!-- 摘要 -->
+      <p id="news-summary" class="news-summary"></p>
+      
+      <!-- 按鈕容器 -->
+      <div class="d-flex gap-3 mt-4">
+        <a href="index.html" class="btn btn-primary">返回首頁</a>
+        <a id="news-link" href="#" class="btn btn-outline-primary d-none" target="_blank">閱讀完整新聞</a>
+      </div>
+    </main>
+
+    <!-- 根據 URL 參數載入單篇新聞內容 -->
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+
+      if (id) {
+        //fetch(`https://news-api-yl96.onrender.com/news/${id}`)//render API
+        fetch(`http://localhost:3000/news/${id}`) // 改為本地 API
+          .then(res => res.json())
+          .then(news => {
+            // 更新標題
+            document.getElementById("news-title").textContent = news.title || "無標題";
+
+            // 更新日期
+            document.getElementById("news-date").textContent =
+              "發布日期：" + (news.published_at ? new Date(news.published_at).toLocaleDateString() : "無日期");
+
+            // 更新摘要
+            document.getElementById("news-summary").textContent = news.summary || "無摘要";
+
+            // 顯示新聞連結按鈕
+            if (news.url) {
+              const newsLink = document.getElementById("news-link");
+              newsLink.href = news.url;
+              newsLink.classList.remove("d-none"); // 顯示按鈕
+            }
+          })
+          .catch(err => {
+            document.getElementById("news-title").textContent = "找不到這則新聞";
+            document.getElementById("news-summary").textContent = "請確認網址是否正確。";
+          });
+      } else {
+        document.getElementById("news-title").textContent = "未提供新聞 ID";
+        document.getElementById("news-summary").textContent = "請從首頁點擊進入。";
+      }
+    </script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
