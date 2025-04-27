@@ -80,7 +80,8 @@
       const id = params.get("id");
 
       if (id) {
-        fetch(`https://newsproject-io.onrender.com/news/${id}`)
+        fetch(`https://newsproject-io.onrender.com/news/${id}`)//render API
+        //fetch(`http://localhost:3000/news/${id}`) // 本地  API
           .then(res => res.json())
           .then(news => {
             // 更新標題
